@@ -1,0 +1,1545 @@
+/* ==========================================================================
+   VARIABLES CENTRALIZADAS: TEMA NEÓN CYBER-VIBRANTE (NULLPOINTER EDITION)
+   ========================================================================== */
+:root {
+    --bg-dark: #06050e;        /* Negro obsidiana profundo */
+    --bg-panel: #0d0b1e;       /* Violeta oscuro espacial */
+    --bg-card: #13102b;        /* Superficie elevada de tarjetas */
+    --bg-glass: rgba(13, 11, 30, 0.84);
+    
+    /* Paleta Neón Llamativa */
+    --neon-cyan: #00f5ff;      /* Cian eléctrico */
+    --neon-magenta: #ff2a85;   /* Magenta / Rosa neón */
+    --neon-green: #39ff14;     /* Verde láser */
+    --neon-yellow: #ffe600;    /* Amarillo neón */
+    --neon-purple: #b537f2;    /* Púrpura ultravioleta */
+    
+    /* Alias de compatibilidad con clases existentes */
+    --beige-main: var(--neon-yellow);
+    --beige-light: #fff380;
+    --blue-accent: var(--neon-magenta);
+    --blue-bright: var(--neon-cyan);
+    --green-mint: var(--neon-green);
+    --neon-blue: var(--neon-cyan);
+    --neon-pink: var(--neon-magenta);
+    
+    /* Resplandores (Glows) */
+    --glow-pink: 0 0 12px rgba(255, 42, 133, 0.65), 0 0 28px rgba(255, 42, 133, 0.25);
+    --glow-yellow: 0 0 12px rgba(255, 230, 0, 0.65), 0 0 28px rgba(255, 230, 0, 0.25);
+    --glow-blue: 0 0 12px rgba(0, 245, 255, 0.65), 0 0 28px rgba(0, 245, 255, 0.25);
+    --glow-green: 0 0 12px rgba(57, 255, 20, 0.65), 0 0 28px rgba(57, 255, 20, 0.25);
+    
+    /* Tipografía y Textos */
+    --text-main: #ffffff;
+    --text-muted: #b4b9d8;
+    --border-subtle: rgba(0, 245, 255, 0.28);
+    --border-highlight: rgba(255, 42, 133, 0.55);
+    
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+}
+
+/* ==========================================================================
+   RESET Y FONDO CON RESPLANDOR AMBIENTAL NEÓN
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    background-color: var(--bg-dark);
+    background-image:
+        radial-gradient(circle at 12% 18%, rgba(181, 55, 242, 0.14) 0%, transparent 40%),
+        radial-gradient(circle at 88% 75%, rgba(0, 245, 255, 0.12) 0%, transparent 42%);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================================================
+   PANTALLA DE BIENVENIDA / ENTRADA LINDA AL SITIO
+   ========================================================================== */
+.np-welcome-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: radial-gradient(circle at center, #16113a 0%, #05040a 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    padding: 2rem;
+    text-align: center;
+    transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.np-welcome-splash.splash-exit {
+    opacity: 0;
+    transform: scale(1.06);
+    pointer-events: none;
+}
+
+.np-splash-orb {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: rgba(0, 245, 255, 0.08);
+    border: 2px solid var(--neon-cyan);
+    box-shadow: 0 0 28px rgba(0, 245, 255, 0.55), inset 0 0 20px rgba(255, 42, 133, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: splashFloat 2s ease-in-out infinite;
+}
+
+.np-splash-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: #ffffff;
+    text-shadow: 0 0 18px rgba(0, 245, 255, 0.65);
+}
+
+.np-splash-title span {
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), var(--neon-yellow));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.np-splash-sub {
+    font-family: var(--font-mono);
+    color: var(--neon-green);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.55);
+}
+
+.np-splash-bar {
+    width: min(320px, 80vw);
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 245, 255, 0.35);
+}
+
+.np-splash-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), var(--neon-green));
+    box-shadow: 0 0 12px var(--neon-cyan);
+    animation: splashLoad 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes splashFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.04); }
+}
+
+@keyframes splashLoad {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+@keyframes pageRevealUp {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   BANNER / MODAL DE COOKIES Y TÉRMINOS DE PRIVACIDAD
+   ========================================================================== */
+.cookie-consent-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 3, 10, 0.78);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 1.25rem;
+    z-index: 9998;
+}
+
+.cookie-consent-overlay.visible {
+    display: flex;
+    animation: cookieFadeIn 0.35s ease forwards;
+}
+
+.cookie-consent-box {
+    width: 100%;
+    max-width: 780px;
+    background: linear-gradient(145deg, rgba(13, 11, 30, 0.98), rgba(19, 16, 43, 0.98));
+    border: 2px solid var(--neon-cyan);
+    box-shadow: var(--glow-blue), 0 0 40px rgba(0, 0, 0, 0.85);
+    border-radius: 14px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cookie-consent-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 0.65rem;
+}
+
+.cookie-consent-header h2 {
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    color: var(--neon-yellow);
+    text-shadow: var(--glow-yellow);
+}
+
+.cookie-consent-box p {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+.cookie-consent-box p a {
+    color: var(--neon-magenta);
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.cookie-options-panel {
+    background: rgba(6, 5, 14, 0.75);
+    border: 1px dashed var(--neon-yellow);
+    border-radius: 8px;
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    font-size: 0.83rem;
+}
+
+.cookie-check-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+.cookie-check-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--neon-magenta);
+    cursor: pointer;
+}
+
+.cookie-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.65rem;
+    margin-top: 0.25rem;
+}
+
+@keyframes cookieFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    animation: pageRevealUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ==========================================================================
+   CABECERA Y LOGOTIPO NEÓN
+   ========================================================================== */
+header {
+    background-color: var(--bg-glass);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: 0 4px 25px rgba(0, 245, 255, 0.12);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1.1rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+header > a.brand-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 1.45rem;
+    letter-spacing: -0.5px;
+    filter: drop-shadow(0 0 8px rgba(0, 245, 255, 0.45));
+}
+
+header > a.brand-logo svg {
+    flex-shrink: 0;
+}
+
+header > a.brand-logo .logo-wordmark {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 800;
+}
+
+header > a.brand-logo .logo-null {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+header > a.brand-logo .logo-pointer,
+header > a.brand-logo .logo-tag {
+    background: linear-gradient(90deg, var(--neon-cyan) 0%, var(--neon-purple) 50%, var(--neon-magenta) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 800;
+}
+
+header > a.brand-logo .logo-tag {
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    margin-left: 0.35rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+nav a, nav button {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+}
+
+nav a:hover, nav a[aria-current="page"] {
+    color: var(--neon-cyan);
+    background-color: rgba(0, 245, 255, 0.1);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 12px rgba(0, 245, 255, 0.3);
+}
+
+nav button.btn-cart {
+    border: 1px solid var(--neon-yellow);
+    color: var(--neon-yellow);
+    background-color: rgba(255, 230, 0, 0.08);
+    box-shadow: 0 0 10px rgba(255, 230, 0, 0.2);
+}
+
+nav button.btn-cart:hover {
+    background-color: var(--neon-yellow);
+    color: var(--bg-dark);
+    box-shadow: 0 0 18px rgba(255, 230, 0, 0.7);
+}
+
+#cart-count {
+    display: inline-block;
+    background-color: var(--neon-magenta);
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    margin-left: 0.35rem;
+    box-shadow: 0 0 8px var(--neon-magenta);
+    transition: transform 0.2s ease;
+}
+
+#cart-count.cart-bump {
+    transform: scale(1.4);
+    background-color: var(--neon-green);
+    color: var(--bg-dark);
+    box-shadow: 0 0 14px var(--neon-green);
+}
+
+nav button.btn-user {
+    border: 1px solid var(--neon-magenta);
+    color: var(--neon-magenta);
+}
+
+nav button.btn-user:hover {
+    background-color: var(--neon-magenta);
+    color: #ffffff;
+    box-shadow: 0 0 16px rgba(255, 42, 133, 0.65);
+}
+
+nav button.btn-orders {
+    border: 1px solid var(--neon-green);
+    color: var(--neon-green);
+}
+
+nav button.btn-orders:hover {
+    background-color: var(--neon-green);
+    color: var(--bg-dark);
+    box-shadow: 0 0 16px rgba(57, 255, 20, 0.65);
+}
+
+/* ==========================================================================
+   BANNER PRINCIPAL (HERO) CYBER-NEÓN
+   ========================================================================== */
+section.hero {
+    background: linear-gradient(135deg, #100c29 0%, #1a1140 55%, rgba(255, 42, 133, 0.18) 100%);
+    border: 1px solid var(--neon-cyan);
+    box-shadow: 0 0 30px rgba(0, 245, 255, 0.18), inset 0 0 25px rgba(181, 55, 242, 0.15);
+    border-radius: 16px;
+    padding: 4rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+section.hero::after {
+    content: "";
+    position: absolute;
+    top: -35%;
+    right: -10%;
+    width: 440px;
+    height: 440px;
+    background: radial-gradient(circle, rgba(0, 245, 255, 0.22) 0%, rgba(255, 42, 133, 0.15) 45%, transparent 70%);
+    pointer-events: none;
+}
+
+section.hero small {
+    font-family: var(--font-mono);
+    color: var(--neon-green);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.6);
+}
+
+section.hero h1 {
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    line-height: 1.1;
+    color: #ffffff;
+    letter-spacing: -1px;
+}
+
+section.hero h1 strong {
+    background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 800;
+    filter: drop-shadow(0 0 12px rgba(255, 42, 133, 0.45));
+}
+
+section.hero p {
+    max-width: 60ch;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+}
+
+menu.hero-actions {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.75rem;
+}
+
+/* ==========================================================================
+   BOTONES NEÓN CON RESPLANDOR (GLOW)
+   ========================================================================== */
+.btn-neon-blue, .btn-neon-pink, .btn-neon-yellow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+}
+
+.btn-neon-blue {
+    border: 1.5px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.22);
+}
+.btn-neon-blue:hover {
+    background: var(--neon-cyan);
+    color: var(--bg-dark);
+    box-shadow: 0 0 22px rgba(0, 245, 255, 0.8);
+}
+
+.btn-neon-pink {
+    border: 1.5px solid var(--neon-magenta);
+    color: var(--neon-magenta);
+    box-shadow: 0 0 10px rgba(255, 42, 133, 0.22);
+}
+.btn-neon-pink:hover {
+    background: var(--neon-magenta);
+    color: #ffffff;
+    box-shadow: 0 0 22px rgba(255, 42, 133, 0.8);
+}
+
+.btn-neon-yellow {
+    border: 1.5px solid var(--neon-yellow);
+    color: var(--neon-yellow);
+    box-shadow: 0 0 10px rgba(255, 230, 0, 0.22);
+}
+.btn-neon-yellow:hover {
+    background: var(--neon-yellow);
+    color: var(--bg-dark);
+    box-shadow: 0 0 22px rgba(255, 230, 0, 0.8);
+}
+
+/* ==========================================================================
+   CATÁLOGO Y FILTROS NEÓN
+   ========================================================================== */
+.catalog-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.catalog-header h1, .catalog-header h2 {
+    color: var(--neon-cyan);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-shadow: 0 0 14px rgba(0, 245, 255, 0.45);
+}
+
+menu.filter-bar {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+menu.filter-bar button {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-muted);
+    padding: 0.4rem 0.95rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+menu.filter-bar button.active, menu.filter-bar button:hover {
+    background: var(--neon-cyan);
+    color: var(--bg-dark);
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 16px rgba(0, 245, 255, 0.65);
+    font-weight: 700;
+}
+
+section.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+article.product-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+article.product-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--neon-magenta);
+    box-shadow: 0 8px 28px rgba(255, 42, 133, 0.28), 0 0 15px rgba(0, 245, 255, 0.2);
+}
+
+/* ==========================================================================
+   IMÁGENES DE TARJETAS Y FIGURAS
+   ========================================================================== */
+article.product-card figure {
+    position: relative;
+    background-color: #ffffff;
+    padding: 0;
+    text-align: center;
+    border-bottom: 1px solid var(--border-subtle);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+article.product-card figure img.product-img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    background-color: #ffffff;
+    padding: 1rem;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+article.product-card:hover figure img.product-img {
+    transform: scale(1.04);
+}
+
+article.product-card figcaption {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--bg-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.5rem 0.75rem;
+    background: linear-gradient(90deg, var(--neon-cyan) 0%, var(--neon-green) 50%, var(--neon-yellow) 100%);
+    font-weight: 800;
+}
+
+article.product-card section.card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    flex: 1;
+}
+
+article.product-card h3 {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+article.product-card p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    flex: 1;
+}
+
+article.product-card label.color-picker-label {
+    font-size: 0.75rem;
+    color: var(--neon-cyan);
+    margin-top: 0.25rem;
+}
+
+article.product-card select.color-select {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.82rem;
+    border-color: var(--border-subtle);
+    background-color: var(--bg-dark);
+}
+
+article.product-card p.price {
+    font-family: var(--font-mono);
+    font-size: 1.28rem;
+    font-weight: 800;
+    color: var(--neon-green);
+    text-shadow: 0 0 10px rgba(57, 255, 20, 0.45);
+    flex: 0;
+}
+
+article.product-card footer {
+    padding: 1rem 1.25rem;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    gap: 0.6rem;
+}
+
+article.product-card footer button {
+    flex: 1;
+    padding: 0.55rem 0.5rem;
+    font-size: 0.78rem;
+}
+
+img.detail-modal-img {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--neon-cyan);
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+/* ==========================================================================
+   NOTIFICACIÓN TOAST NEÓN
+   ========================================================================== */
+.np-toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 360px;
+    width: calc(100% - 3rem);
+    pointer-events: none;
+}
+
+.np-toast {
+    pointer-events: auto;
+    background-color: var(--bg-panel);
+    border: 1.5px solid var(--neon-green);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    color: #ffffff;
+    font-size: 0.85rem;
+    box-shadow: 0 0 22px rgba(57, 255, 20, 0.35);
+    animation: toastSlideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.np-toast.toast-hide {
+    animation: toastSlideOut 0.2s ease forwards;
+}
+
+.np-toast img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    background-color: #ffffff;
+    padding: 0.2rem;
+    border-radius: 6px;
+    border: 1px solid var(--neon-cyan);
+    flex-shrink: 0;
+}
+
+.np-toast-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.np-toast-content strong {
+    font-family: var(--font-mono);
+    color: var(--neon-green);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.np-toast-content span {
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.25;
+}
+
+.np-toast-content small {
+    color: var(--neon-yellow);
+    font-size: 0.72rem;
+}
+
+.np-toast-btn {
+    background: transparent;
+    border: 1px solid var(--neon-magenta);
+    color: var(--neon-magenta);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.np-toast-btn:hover {
+    background: var(--neon-magenta);
+    color: #ffffff;
+    box-shadow: 0 0 12px var(--neon-magenta);
+}
+
+@keyframes toastSlideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastSlideOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(20px); }
+}
+
+/* ==========================================================================
+   SECCIÓN DE RASTREO Y FORMULARIOS
+   ========================================================================== */
+section.tracker-box, section.contact-section {
+    background: var(--bg-panel);
+    border: 1px solid var(--neon-purple);
+    box-shadow: 0 0 24px rgba(181, 55, 242, 0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+section.tracker-box h2, section.contact-section h1 {
+    color: var(--neon-yellow);
+    text-shadow: 0 0 12px rgba(255, 230, 0, 0.4);
+    font-size: 1.45rem;
+}
+
+form.inline-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+}
+
+form.inline-form input {
+    flex: 1;
+    min-width: 220px;
+}
+
+article.amazon-tracker-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--neon-cyan);
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+header.amazon-delivery-banner {
+    position: static;
+    background: var(--bg-dark);
+    border: 1.5px solid var(--neon-green);
+    box-shadow: 0 0 18px rgba(57, 255, 20, 0.25);
+    border-radius: 8px;
+    padding: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+header.amazon-delivery-banner h3 {
+    color: var(--neon-green);
+    font-size: 1.35rem;
+    margin-bottom: 0.2rem;
+}
+
+header.amazon-delivery-banner p {
+    color: #ffffff;
+    font-size: 0.9rem;
+}
+
+ol.amazon-stepper {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+ol.amazon-stepper li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    z-index: 1;
+}
+
+ol.amazon-stepper li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    width: 100%;
+    height: 3px;
+    background-color: var(--bg-dark);
+    z-index: -1;
+}
+
+ol.amazon-stepper li.completed:not(:last-child)::after {
+    background-color: var(--neon-green);
+    box-shadow: 0 0 8px var(--neon-green);
+}
+
+ol.amazon-stepper li span.step-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--bg-dark);
+    border: 2px solid var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+ol.amazon-stepper li.completed span.step-dot {
+    background-color: var(--neon-green);
+    border-color: var(--neon-green);
+    color: var(--bg-dark);
+    box-shadow: 0 0 12px var(--neon-green);
+}
+
+ol.amazon-stepper li.active span.step-dot {
+    background-color: var(--neon-magenta);
+    border-color: var(--neon-magenta);
+    color: #ffffff;
+    box-shadow: 0 0 14px var(--neon-magenta);
+}
+
+ol.amazon-stepper li.completed strong,
+ol.amazon-stepper li.active strong {
+    color: #ffffff;
+}
+
+section.amazon-timeline-box {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+section.amazon-timeline-box h4 {
+    color: var(--neon-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 0.5rem;
+}
+
+ul.amazon-events-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    border-left: 2px solid var(--neon-cyan);
+    margin-left: 0.5rem;
+    padding-left: 1.2rem;
+}
+
+ul.amazon-events-list li {
+    position: relative;
+    font-size: 0.85rem;
+}
+
+ul.amazon-events-list li::before {
+    content: "";
+    position: absolute;
+    left: -1.5rem;
+    top: 0.35rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--neon-cyan);
+    box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+ul.amazon-events-list li:first-child::before {
+    background-color: var(--neon-yellow);
+    box-shadow: 0 0 8px var(--neon-yellow);
+}
+
+ul.amazon-events-list li time {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--neon-yellow);
+    display: block;
+}
+
+ul.amazon-events-list li small {
+    color: var(--text-muted);
+    display: block;
+}
+
+/* ==========================================================================
+   FORMULARIOS, CAMPOS DE ENTRADA Y DETECTOR DE BANDERA TELEFÓNICA
+   ========================================================================== */
+form.stacked-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+fieldset.checkout-group {
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background-color: var(--bg-card);
+}
+
+fieldset.checkout-group legend {
+    padding: 0 0.5rem;
+    color: var(--neon-cyan);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.saved-address-card {
+    background-color: var(--bg-dark);
+    border: 1px dashed var(--neon-green);
+    padding: 0.85rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.saved-address-summary {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-subtle);
+    padding: 0.65rem 0.85rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #ffffff;
+}
+
+section.form-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-weight: 600;
+    font-size: 0.82rem;
+    color: var(--neon-cyan);
+}
+
+input, select, textarea {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-subtle);
+    color: #ffffff;
+    padding: 0.65rem 0.85rem;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    width: 100%;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--neon-magenta);
+    box-shadow: 0 0 12px rgba(255, 42, 133, 0.35);
+}
+
+select:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.phone-input-group {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.phone-input-group:focus-within {
+    border-color: var(--neon-magenta);
+    box-shadow: 0 0 12px rgba(255, 42, 133, 0.35);
+}
+
+.phone-flag-box {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.7rem;
+    background-color: var(--bg-panel);
+    border-right: 1px solid var(--border-subtle);
+    font-size: 1.2rem;
+    line-height: 1;
+    user-select: none;
+}
+
+.phone-input-group select {
+    width: 44%;
+    min-width: 120px;
+    border: none;
+    border-right: 1px solid var(--border-subtle);
+    border-radius: 0;
+    padding: 0.65rem 0.45rem;
+    font-size: 0.8rem;
+}
+
+.phone-input-group input[type="tel"] {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    flex: 1;
+}
+
+.phone-input-group input[type="tel"]:focus {
+    box-shadow: none;
+}
+
+.password-field {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: stretch;
+    gap: 0.4rem;
+}
+
+.password-field input {
+    flex: 1;
+}
+
+button.btn-toggle-eye {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-subtle);
+    color: var(--neon-yellow);
+    border-radius: 6px;
+    padding: 0 0.85rem;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+button.btn-toggle-eye:hover {
+    background-color: var(--neon-yellow);
+    color: var(--bg-dark);
+}
+
+/* ==========================================================================
+   SELECTOR VISUAL DE MÉTODOS DE PAGO (CON LOGOS Y EMOJIS)
+   ========================================================================== */
+.payment-methods-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    margin-top: 0.45rem;
+}
+
+.payment-option-card {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 0.65rem 0.75rem;
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.payment-option-card:hover {
+    border-color: var(--neon-yellow);
+    box-shadow: 0 0 12px rgba(255, 230, 0, 0.35);
+}
+
+.payment-option-card.selected {
+    background-color: rgba(0, 245, 255, 0.14);
+    border: 2px solid var(--neon-green);
+    box-shadow: 0 0 14px rgba(57, 255, 20, 0.45);
+    color: var(--neon-green);
+}
+
+.pay-logo-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 24px;
+    border-radius: 4px;
+    padding: 0 4px;
+    flex-shrink: 0;
+}
+
+.pay-emoji {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+/* ==========================================================================
+   COMPROBANTE / CÓDIGO DE BARRAS OXXO PAY
+   ========================================================================== */
+.oxxo-slip-card {
+    background-color: #ffffff;
+    color: #111111;
+    border: 2px solid #e2001a;
+    border-radius: 8px;
+    padding: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+}
+
+.oxxo-slip-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #ffe600;
+    padding-bottom: 0.45rem;
+}
+
+.oxxo-barcode-box {
+    background: #ffffff;
+    border: 1px dashed #333;
+    padding: 0.55rem 0.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.oxxo-barcode-bars {
+    width: 100%;
+    max-width: 270px;
+    height: 46px;
+    background: repeating-linear-gradient(
+        90deg,
+        #000 0px,
+        #000 2px,
+        #fff 2px,
+        #fff 4px,
+        #000 4px,
+        #000 7px,
+        #fff 7px,
+        #fff 9px,
+        #000 9px,
+        #000 10px,
+        #fff 10px,
+        #fff 13px,
+        #000 13px,
+        #000 16px,
+        #fff 16px,
+        #fff 18px
+    );
+}
+
+.oxxo-ref-number {
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #111;
+}
+
+/* ==========================================================================
+   MODALES NATIVOS HTML5 (<dialog>), CARRITO CON IMAGEN Y TICKET DE COMPRA
+   ========================================================================== */
+dialog {
+    background-color: var(--bg-panel);
+    color: #ffffff;
+    border: 1.5px solid var(--neon-cyan);
+    border-radius: 12px;
+    padding: 1.75rem;
+    max-width: 640px;
+    width: 94%;
+    max-height: 90vh;
+    overflow-y: auto;
+    margin: auto;
+    box-shadow: 0 0 40px rgba(0, 245, 255, 0.3), 0 25px 50px -12px rgba(0, 0, 0, 0.85);
+}
+
+dialog::backdrop {
+    background: rgba(6, 5, 14, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+dialog header {
+    position: static;
+    background: transparent;
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: none;
+    padding: 0 0 0.85rem 0;
+    margin-bottom: 1rem;
+}
+
+dialog header h3 {
+    color: var(--neon-yellow);
+    font-size: 1.2rem;
+}
+
+ul.cart-list, ul.orders-history-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+ul.cart-list li, ul.orders-history-list li {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    padding: 0.85rem;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.cart-item-info {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex: 1;
+    min-width: 210px;
+}
+
+img.cart-item-img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    background-color: #ffffff;
+    padding: 0.25rem;
+    border-radius: 8px;
+    border: 1px solid var(--neon-cyan);
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.25);
+    flex-shrink: 0;
+}
+
+.receipt-ticket {
+    background-color: var(--bg-card);
+    border: 1.5px dashed var(--neon-green);
+    box-shadow: 0 0 18px rgba(57, 255, 20, 0.2);
+    border-radius: 8px;
+    padding: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.receipt-ticket h4 {
+    color: var(--neon-cyan);
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
+    text-align: center;
+}
+
+.receipt-ticket table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.75rem 0;
+}
+
+.receipt-ticket th,
+.receipt-ticket td {
+    padding: 0.45rem 0.25rem;
+    border-bottom: 1px solid var(--border-subtle);
+    text-align: left;
+}
+
+.receipt-ticket th:last-child,
+.receipt-ticket td:last-child {
+    text-align: right;
+}
+
+/* ==========================================================================
+   PIE DE PÁGINA GLOBAL
+   ========================================================================== */
+body > footer {
+    background-color: var(--bg-panel);
+    border-top: 1px solid var(--border-subtle);
+    padding: 2.5rem 1.5rem;
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+body > footer p {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+}
+
+body > footer nav ul {
+    gap: 1.25rem;
+}
+
+/* ==========================================================================
+   MEDIA QUERIES (RESPONSIVIDAD)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    section.product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    header > a.brand-logo {
+        justify-content: center;
+    }
+
+    nav ul {
+        justify-content: center;
+    }
+
+    section.hero {
+        padding: 2.5rem 1.5rem;
+    }
+
+    section.product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    section.form-row-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-methods-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .phone-input-group {
+        flex-wrap: wrap;
+    }
+
+    .phone-input-group select {
+        width: 100%;
+    }
+
+    ol.amazon-stepper {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    ol.amazon-stepper li:not(:last-child)::after {
+        display: none;
+    }
+
+    ol.amazon-stepper li {
+        flex-direction: row;
+        text-align: left;
+    }
+
+    .cookie-actions {
+        flex-direction: column;
+    }
+
+    .cookie-actions button {
+        width: 100%;
+    }
+
+    body > footer {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media print {
+    body * { visibility: hidden; }
+    dialog#modal-ticket, dialog#modal-ticket * { visibility: visible; }
+    dialog#modal-ticket {
+        position: absolute;
+        left: 0;
+        top: 0;
+        border: none;
+        box-shadow: none;
+    }
+}
