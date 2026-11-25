@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos Ergonómicos &amp; Ropa Dev | NullPointer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="loaded">
+
+    <header>
+        <a href="index.html" class="brand-logo" aria-label="NullPointer Inicio">
+            <svg width="38" height="32" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <linearGradient id="np-chameleon-grad" x1="0%" y1="50%" x2="100%" y2="50%">
+                        <stop offset="0%" stop-color="#8b46f6"/>
+                        <stop offset="55%" stop-color="#6a78f8"/>
+                        <stop offset="100%" stop-color="#48b8f5"/>
+                    </linearGradient>
+                </defs>
+                <path d="M58 22 C74 22, 92 31, 98 44 C101 51, 94 58, 82 58 L72 58 C78 55, 86 52, 87 48 L75 48 C73 48, 72 45, 75 45 L88 45 C87 38, 76 31, 63 31 L58 38 L58 22 Z" fill="url(#np-chameleon-grad)"/>
+                <circle cx="81" cy="39" r="3.5" fill="#0b0f19"/>
+                <path d="M58 28 C34 28, 14 45, 14 68 C14 85, 27 95, 42 95 C55 95, 64 86, 64 75 C64 66, 57 60, 49 60 C42 60, 38 65, 38 71 C38 76, 42 79, 46 79 C49 79, 51 77, 51 74 C51 72, 49 71, 47 71 C46 71, 45 72, 45 73" stroke="url(#np-chameleon-grad)" stroke-width="8.5" stroke-linecap="round" fill="none"/>
+                <path d="M58 46 L48 56 L58 63" stroke="url(#np-chameleon-grad)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M40 65 L104 65 L95 62 L44 62 Z" fill="url(#np-chameleon-grad)"/>
+            </svg>
+            <span class="logo-wordmark">
+                <strong class="logo-null">Null</strong><strong class="logo-pointer">Pointer</strong>
+                <span class="logo-tag">&lt;/&gt;</span>
+            </span>
+        </a>
+        <nav aria-label="Navegación principal">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html" aria-current="page">Productos</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><button type="button" class="btn-orders" id="btn-open-orders">Mis Pedidos / Tickets</button></li>
+                <li><button type="button" class="btn-user" id="btn-open-auth">Iniciar Sesión</button></li>
+                <li><button type="button" class="btn-cart" id="btn-open-cart">Carrito (<span id="cart-count">0</span>)</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="catalog-header" aria-labelledby="catalog-title">
+            <h1 id="catalog-title">Catálogo NullPointer de Ropa &amp; Equipo Ergonómico</h1>
+            <menu class="filter-bar" aria-label="Filtrar productos por categoría">
+                <li><button type="button" class="active" data-filter="todos">Todos</button></li>
+                <li><button type="button" data-filter="ergonomia">Ergonomía</button></li>
+                <li><button type="button" data-filter="ropa">Ropa Postural</button></li>
+                <li><button type="button" data-filter="accesorios">Salud Visual</button></li>
+            </menu>
+        </section>
+
+        <section class="product-grid" id="all-products-grid" aria-label="Lista completa de productos"></section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 NullPointer Ergonomics — Salud física para mentes digitales.</p>
+        <nav aria-label="Enlaces secundarios">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="productos.html">Productos</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="#" onclick="event.preventDefault(); showPrivacyPolicyModal();">Política de Privacidad y Cookies</a></li>
+            </ul>
+        </nav>
+    </footer>
+
+    <dialog id="modal-cart" aria-labelledby="cart-title">
+        <header>
+            <h3 id="cart-title">🛒 Finalizar Pedido</h3>
+            <button type="button" class="btn-neon-pink" onclick="closeModal('modal-cart')">Cerrar</button>
+        </header>
+        <ul class="cart-list" id="cart-items-list"></ul>
+        <form class="stacked-form" id="checkout-form">
+            <fieldset class="checkout-group">
+                <legend>📦 1. Datos de Envío a Domicilio</legend>
+                <section id="saved-shipping-box"></section>
+                <section class="form-row-2">
+                    <label>Nombre de quien recibe * <input type="text" id="ship-name" required minlength="3" placeholder="Ej. Alan Turing"></label>
+                    <label>
+                        Teléfono de contacto *
+                        <div class="phone-input-group">
+                            <select id="ship-lada" aria-label="Lada por ciudad" required>
+                                <option value="+52 55">CDMX (+52 55)</option>
+                                <option value="+52 33">Guadalajara (+52 33)</option>
+                                <option value="+52 81">Monterrey (+52 81)</option>
+                                <option value="+52 477">León (+52 477)</option>
+                                <option value="+52 442">Querétaro (+52 442)</option>
+                                <option value="+52 222">Puebla (+52 222)</option>
+                                <option value="+52 664">Tijuana (+52 664)</option>
+                                <option value="+52 999">Mérida (+52 999)</option>
+                                <option value="+1">EE.UU. / Canadá (+1)</option>
+                                <option value="+34">España (+34)</option>
+                                <option value="+57">Colombia (+57)</option>
+                                <option value="+54">Argentina (+54)</option>
+                            </select>
+                            <input type="tel" id="ship-phone" required pattern="[0-9]{7,10}" maxlength="10" placeholder="12345678">
+                        </div>
+                    </label>
+                </section>
+                <section class="form-row-2">
+                    <label>
+                        País *
+                        <input type="text" id="ship-country" list="countries-datalist" required autocomplete="off" placeholder="Escribe inicial (Ej. México)">
+                    </label>
+                    <label>
+                        Código Postal (5 dígitos reales) *
+                        <input type="text" id="ship-zip" required pattern="[0-9]{5}" maxlength="5" inputmode="numeric" placeholder="45138">
+                        <small id="zip-validation-status" style="font-size: 0.76rem; color: var(--text-muted);">Ingresa un CP válido para detectar colonia, municipio y estado.</small>
+                    </label>
+                </section>
+                <section class="form-row-2">
+                    <label>
+                        Estado / Provincia *
+                        <input type="text" id="ship-state" list="states-datalist" required autocomplete="off" placeholder="Escribe inicial (Ej. Guanajuato)">
+                    </label>
+                    <label>
+                        Ciudad / Municipio *
+                        <input type="text" id="ship-city" list="cities-datalist" required autocomplete="off" placeholder="Escribe inicial (Ej. León)">
+                    </label>
+                </section>
+                <section class="form-row-2">
+                    <label>Colonia / Barrio * <input type="text" id="ship-colony" list="colonies-datalist" required autocomplete="off" placeholder="Ej. Jardines del Valle"></label>
+                    <label>Calle * <input type="text" id="ship-street" required placeholder="Ej. Av. Patria"></label>
+                </section>
+                <section class="form-row-2">
+                    <label>Número Ext. / Int. * <input type="text" id="ship-number" required placeholder="Ej. #1420 Int. 4B"></label>
+                    <label>Referencias entre calles / color de fachada <input type="text" id="ship-refs" placeholder="Ej. Portón negro frente a parque"></label>
+                </section>
+                <datalist id="countries-datalist"></datalist>
+                <datalist id="states-datalist"></datalist>
+                <datalist id="cities-datalist"></datalist>
+                <datalist id="colonies-datalist"></datalist>
+            </fieldset>
+
+            <fieldset class="checkout-group">
+                <legend>💳 2. Método y Datos de Pago</legend>
+                <label>
+                    Selecciona cómo deseas pagar *
+                    <select id="payment-method" required>
+                        <option value="">-- Elige una forma de pago --</option>
+                        <option value="Tarjeta de Crédito / Débito">💳 Tarjeta de Crédito / Débito</option>
+                        <option value="Transferencia SPEI">🏦 Transferencia Bancaria (SPEI)</option>
+                        <option value="PayPal">🌐 PayPal</option>
+                        <option value="Efectivo en OXXO">🏪 Pago en Efectivo (OXXO)</option>
+                    </select>
+                </label>
+                <section id="payment-details-fields"></section>
+            </fieldset>
+
+            <p><strong>Total a pagar:</strong> <span id="cart-total">$0.00 MXN</span></p>
+            <menu class="hero-actions">
+                <li><button type="submit" class="btn-neon-yellow">Confirmar Pedido y Generar Ticket</button></li>
+            </menu>
+        </form>
+    </dialog>
+
+    <dialog id="modal-orders" aria-labelledby="orders-title">
+        <header>
+            <h3 id="orders-title">📋 Mis Pedidos y Tickets</h3>
+            <button type="button" class="btn-neon-pink" onclick="closeModal('modal-orders')">Cerrar</button>
+        </header>
+        <ul class="orders-history-list" id="orders-history-list"></ul>
+    </dialog>
+
+    <dialog id="modal-detail" aria-labelledby="detail-title">
+        <header>
+            <h3 id="detail-title">Especificaciones del Producto</h3>
+            <button type="button" class="btn-neon-pink" onclick="closeModal('modal-detail')">Cerrar</button>
+        </header>
+        <article id="detail-content"></article>
+    </dialog>
+
+    <dialog id="modal-auth" aria-labelledby="auth-title">
+        <header>
+            <h3 id="auth-title">Acceso NullPointer</h3>
+            <button type="button" class="btn-neon-pink" onclick="closeModal('modal-auth')">Cerrar</button>
+        </header>
+        <section id="auth-forms-container"></section>
+    </dialog>
+
+    <dialog id="modal-ticket" aria-labelledby="ticket-title">
+        <header>
+            <h3 id="ticket-title">🧾 Ticket Oficial de Compra</h3>
+            <button type="button" class="btn-neon-pink" onclick="closeModal('modal-ticket')">Cerrar</button>
+        </header>
+        <article class="receipt-ticket" id="ticket-printable"></article>
+        <menu class="hero-actions">
+            <li><button type="button" class="btn-neon-blue" onclick="window.print()">Imprimir / Guardar PDF</button></li>
+            <li><button type="button" class="btn-neon-yellow" onclick="closeModal('modal-ticket')">Listo</button></li>
+        </menu>
+    </dialog>
+
+    <script src="app.js"></script>
+</body>
+</html>
